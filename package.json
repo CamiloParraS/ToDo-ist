@@ -1,5 +1,5 @@
 {
-  "name": "template-webpack",
+  "name": "ToDo-ist",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CamiloParraS/TEMPLATE-webpack.git"
+    "url": "git+https://github.com/CamiloParraS/ToDo-ist.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/CamiloParraS/TEMPLATE-webpack/issues"
+    "url": "https://github.com/CamiloParraS/ToDo-ist/issues"
   },
-  "homepage": "https://github.com/CamiloParraS/TEMPLATE-webpack#readme",
+  "homepage": "https://github.com/CamiloParraS/ToDo-ist#readme",
   "devDependencies": {
     "css-loader": "^7.1.2",
     "html-loader": "^5.1.0",

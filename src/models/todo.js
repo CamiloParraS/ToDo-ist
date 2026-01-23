@@ -1,5 +1,6 @@
 export default class createTodo {
   constructor(name, dueDate = "No date") {
+    this.id = crypto.randomUUID();
     this.name = name;
     this.dueDate = dueDate;
   }
