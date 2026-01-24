@@ -1,30 +1,50 @@
-export default class createTodo {
-  constructor(name, dueDate = "No date") {
+export default class Todo {
+  constructor(
+    title,
+    description,
+    dueDate = "No date",
+    priority = 1,
+    project = "inbox",
+  ) {
     this.id = crypto.randomUUID();
-    this.name = name;
+    this.complete = false;
+
+    this.title = title;
+    this.description = description;
     this.dueDate = dueDate;
+    this.priority = priority;
+    this.project = project;
   }
 
-  setName(name) {
-    this.name = name;
+  // TITLE
+  get title() {
+    return this._title;
+  }
+  set title(value) {
+    this._title = value.length > 0 ? value : "Untitled Task";
   }
 
-  getName() {
-    return this.name;
+  // PROJECT
+  get project() {
+    return this._project;
+  }
+  set project(value) {
+    this._project = value;
   }
 
-  setDate(dueDate) {
-    this.dueDate = dueDate;
+  // PRIORITY
+  get priority() {
+    return this._priority;
+  }
+  set priority(value) {
+    if (typeof value !== "number" || value < 1 || value > 3) {
+      this._priority = 1;
+      return;
+    }
+    this._priority = value;
   }
 
-  getDate() {
-    return this.dueDate;
-  }
-
-  getDateFormatted() {
-    const day = this.dueDate.split("/")[0];
-    const month = this.dueDate.split("/")[1];
-    const year = this.dueDate.split("/")[2];
-    return `${month}/${day}/${year}`;
+  toggleStatus() {
+    this.complete = !this.complete;
   }
 }
