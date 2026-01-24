@@ -2,7 +2,7 @@ import { toDate, isToday, isThisWeek, subDays } from "date-fns";
 
 export default class Project {
   constructor(name) {
-    this.id = crypto.randomUUID();
+    this._id = crypto.randomUUID();
 
     this.name = name;
     this._tasks = [];
@@ -14,6 +14,11 @@ export default class Project {
   }
   set name(value) {
     this._name = value;
+  }
+
+  // ID
+  get id() {
+    return this._id;
   }
 
   // TASKS
