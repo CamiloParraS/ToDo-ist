@@ -1,11 +1,23 @@
 import Project from "../models/project";
 import Todo from "../models/todo";
 
-export default class applogic {
+class applogic {
   constructor() {
     this.projects = [];
 
-    const defaultProject = new Project("Inbox");
+    const defaultProject = new Project("root");
+    const test = new Project("daesdad");
+    test.addTask(
+      new Todo(
+        "Configure webpack.config.js for development",
+        "description1",
+        "9:00 AM",
+      ),
+    );
+    test.addTask(
+      new Todo("Setup entry and output paths", "description2", "10:30 AM"),
+    );
+    this.addProject(test);
     this.addProject(defaultProject);
   }
 
@@ -30,3 +42,6 @@ export default class applogic {
     this._projects = this._projects.filter((p) => p.id !== projectId);
   }
 }
+
+const appLogicInstance = new applogic();
+export default appLogicInstance;
