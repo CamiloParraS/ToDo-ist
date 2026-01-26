@@ -43,15 +43,6 @@ body {
     border-left: 2px solid #4fc3f7;
 }
 
-.add-task-btn {
-    color: #4ec9b0;
-    font-weight: 600;
-}
-
-.add-task-btn .menu-icon {
-    color: #4ec9b0;
-}
-
 .section-title {
     padding: 20px 20px 10px;
     font-size: 11px;
@@ -104,3 +95,88 @@ body {
     content: "$ ";
     color: #4ec9b0;
 }
+
+/* Projects Content ??? */
+
+.section {
+    margin-bottom: 30px;
+    background-color: #252526;
+    border: 1px solid #3e3e42;
+    border-radius: 3px;
+    padding: 15px;
+}
+
+.section-header {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #dcdcaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.section-header:before {
+    content: "// ";
+    color: #6a9955;
+}
+
+.task {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    border-left: 2px solid transparent;
+    margin-bottom: 5px;
+}
+
+.task:hover {
+    background-color: #2a2d2e;
+    border-left: 2px solid #4ec9b0;
+}
+
+.task-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #858585;
+    border-radius: 2px;
+    margin-right: 12px;
+    margin-top: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.task-content {
+    flex: 1;
+}
+
+.task-title {
+    font-size: 13px;
+    margin-bottom: 4px;
+    color: #d4d4d4;
+}
+
+.task-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+}
+
+.task-time {
+    color: #4ec9b0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Priority Labels */
+.priority-label {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+}
+

@@ -29,7 +29,6 @@ const domController = {
         project.tasks.forEach((task) => {
           projectSection.innerHTML += this.createTask(task);
         });
-        projectSection.innerHTML += `<div class="add-task-link">Add task</div>`;
         tasksContainer.appendChild(projectSection);
       }
     });
@@ -50,7 +49,10 @@ const domController = {
       <div class="task">
           <div class="task-checkbox"></div>
           <div class="task-content">
-              <div class="task-title">${task.title}</div>
+              <div class="task-title">
+                ${task.title}
+                <span class="priority-label">${task.priority}</span>
+              </div>
               <div class="task-meta">
                   <span class="task-time">${task.dueDate}</span>
               </div>
