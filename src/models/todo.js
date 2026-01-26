@@ -1,4 +1,4 @@
-import { format, parse, isValid, parseISO } from "date-fns";
+import { parseTodoDate, formatTodoDate } from "../utils/DateUtils.js";
 
 export default class Todo {
   constructor(
@@ -48,46 +48,11 @@ export default class Todo {
 
   // DUE DATE
   get dueDate() {
-    if (!this._dueDate || !isValid(this._dueDate)) return "";
-
-    const now = new Date();
-    const isSameDay =
-      this._dueDate.getDate() === now.getDate() &&
-      this._dueDate.getMonth() === now.getMonth() &&
-      this._dueDate.getFullYear() === now.getFullYear();
-
-    if (isSameDay) {
-      return format(this._dueDate, "h:mm a");
-    } else {
-      return format(this._dueDate, "dd/MM/yyyy h:mm a");
-    }
+    return formatTodoDate(this._dueDate);
   }
+
   set dueDate(value) {
-    if (!value) {
-      this._dueDate = null;
-      return;
-    }
-
-    if (value instanceof Date && isValid(value)) {
-      this._dueDate = value;
-      return;
-    }
-
-    if (typeof value === "string") {
-      let parsed = parseISO(value);
-
-      const formats = ["h:mm a", "dd/MM/yyyy", "dd/MM/yyyy h:mm a"];
-
-      for (let fmt of formats) {
-        if (isValid(parsed)) break;
-        parsed = parse(value, fmt, new Date());
-      }
-
-      this._dueDate = isValid(parsed) ? parsed : null;
-      return;
-    }
-
-    this._dueDate = null;
+    this._dueDate = parseTodoDate(value);
   }
 
   toggleStatus() {
