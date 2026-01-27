@@ -31,6 +31,7 @@ export default class Project {
 
   addTask(newTask) {
     if (this._tasks.some((task) => task.id === newTask.id)) return;
+    newTask.project = this.name;
     this._tasks.push(newTask);
   }
 
