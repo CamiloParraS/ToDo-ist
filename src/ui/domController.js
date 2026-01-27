@@ -21,14 +21,19 @@ const domController = {
   loadTasks() {
     const tasksContainer = document.getElementById("tasks-container");
     tasksContainer.innerHTML = "";
+
     applogic.projects.forEach((project) => {
       if (project.name !== "root" && project.tasks.length > 0) {
         const projectSection = document.createElement("div");
         projectSection.classList.add("section");
+
         projectSection.innerHTML = `<div class="section-header">${project.name}</div>`;
+
         project.tasks.forEach((task) => {
-          projectSection.innerHTML += this.createTask(task);
+          const taskElement = this.createTask(task);
+          projectSection.appendChild(taskElement);
         });
+
         tasksContainer.appendChild(projectSection);
       }
     });
@@ -45,21 +50,32 @@ const domController = {
   },
 
   createTask(task) {
-    return `
-      <div class="task">
-          <div class="task-checkbox"></div>
+    const taskDiv = document.createElement("div");
+    taskDiv.classList.add("task");
+
+    taskDiv.innerHTML = `
+          <div class="task-checkbox" id="task-checkbox"></div>
           <div class="task-content">
               <div class="task-title">
                 ${task.title}
                 <span class="priority-label">${task.priority}</span>
               </div>
               <div class="task-meta">
+                  <span class="task-time">${task.description}</span>
+              </div>
+              <div class="task-meta">
                   <span class="task-time">${task.dueFormatedDate}</span>
                   <span class="">${task.project}</span>
               </div>
           </div>
-      </div>
     `;
+
+    const checkbox = taskDiv.querySelector(".task-checkbox");
+
+    checkbox.addEventListener("click", () => {
+      task.toggleStatus();
+    });
+    return taskDiv;
   },
 };
 
