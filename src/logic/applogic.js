@@ -6,32 +6,6 @@ class applogic {
     this.projects = [];
 
     const defaultProject = new Project("root");
-    const test = new Project("daesdad");
-    test.addTask(
-      new Todo(
-        "Configure webpack.config.js for development",
-        "description1",
-        "9:00 AM",
-      ),
-    );
-    test.addTask(
-      new Todo("Setup entry and output paths", "description2", "10:30 AM"),
-    );
-    this.addProject(test);
-
-    const test2 = new Project("daesdad");
-    test2.addTask(
-      new Todo(
-        "Configure webpack.config.js for development",
-        "description1",
-        "28/01/2026",
-      ),
-    );
-    test2.addTask(
-      new Todo("Setup entry and output paths", "description2", "10:30 AM"),
-    );
-    this.addProject(test2);
-
     this.addProject(defaultProject);
   }
 
