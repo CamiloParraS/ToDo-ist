@@ -47,14 +47,17 @@ export default class Todo {
   }
 
   // DUE DATE
-  get dueDate() {
+  get dueFormatedDate() {
     return formatTodoDate(this._dueDate);
   }
-
+  get dueDate() {
+    return this._dueDate;
+  }
   set dueDate(value) {
     this._dueDate = parseTodoDate(value);
   }
 
+  // STATUS
   toggleStatus() {
     this.complete = !this.complete;
   }

@@ -54,7 +54,8 @@ const domController = {
                 <span class="priority-label">${task.priority}</span>
               </div>
               <div class="task-meta">
-                  <span class="task-time">${task.dueDate}</span>
+                  <span class="task-time">${task.dueFormatedDate}</span>
+                  <span class="">${task.project}</span>
               </div>
           </div>
       </div>
