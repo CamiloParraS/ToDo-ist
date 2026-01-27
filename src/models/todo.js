@@ -58,6 +58,9 @@ export default class Todo {
   }
 
   // STATUS
+  get status() {
+    return this.complete;
+  }
   toggleStatus() {
     this.complete = !this.complete;
   }
