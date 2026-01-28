@@ -1,4 +1,15 @@
-import { format, parse, isValid, parseISO, isSameDay } from "date-fns";
+import {
+  format,
+  parse,
+  isValid,
+  parseISO,
+  isSameDay,
+  isToday,
+  isBefore,
+  startOfDay,
+  isAfter,
+  endOfDay,
+} from "date-fns";
 
 export function parseTodoDate(value) {
   if (!value) return null;
@@ -41,3 +52,23 @@ export function formatDate(date) {
 export function formatDateWithTime(date) {
   return format(date, "MM/dd/yyyy HH:mm");
 }
+
+export function categorizeTask(task) {
+  if (!task.dueDate) return "nodate";
+  const date =
+    typeof task.dueDate === "string" ? parseISO(task.dueDate) : task.dueDate;
+  const now = new Date();
+
+  if (isToday(date)) return "today";
+  if (isBefore(date, startOfDay(now))) return "overdue";
+  if (isAfter(date, endOfDay(now))) return "upcoming";
+  return "nodate";
+}
+
+export const filters = {
+  all: (tasks) => tasks,
+  today: (tasks) => tasks.filter((t) => isToday(new Date(t.dueDate))),
+  week: (tasks) => tasks.filter((t) => isThisWeek(new Date(t.dueDate))),
+  upcoming: (tasks) => tasks.filter((t) => isAfter(new Date(t.dueDate))),
+  highPriority: (tasks) => tasks.filter((t) => t.priority === "high"),
+};

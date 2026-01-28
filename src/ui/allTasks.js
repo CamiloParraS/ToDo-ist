@@ -8,23 +8,10 @@ import {
   compareAsc,
 } from "date-fns";
 import createTask from "./taskRender.js";
-
-const categorizeTask = (task) => {
-  if (!task.dueDate) return "nodate";
-  const date =
-    typeof task.dueDate === "string" ? parseISO(task.dueDate) : task.dueDate;
-  const now = new Date();
-
-  if (isToday(date)) return "today";
-  if (isBefore(date, startOfDay(now))) return "overdue";
-  if (isAfter(date, endOfDay(now))) return "upcoming";
-  return "nodate";
-};
+import { categorizeTask } from "../utils/DateUtils.js";
 
 const allTasksView = {
   render(container, tasks) {
-    container.innerHTML = "";
-
     const section = document.createElement("div");
 
     if (tasks.length === 0) {

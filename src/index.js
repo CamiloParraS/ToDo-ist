@@ -6,3 +6,4 @@ import domController from "./ui/domController.js";
 console.log("heheh HI!");
 
 domController.loadMainContent();
+domController.bindEvents();
