@@ -7,13 +7,13 @@ const upcomingView = {
 
     const header = document.createElement("div");
     header.className = "section-header";
-    header.textContent = `upcoming (${tasks.length})`;
+    header.textContent = `Upcoming (${tasks.length})`;
     section.appendChild(header);
 
     if (tasks.length === 0) {
       this.renderEmptyState(
         section,
-        "No upcoming tasks due. You're all caught up!",
+        "No Upcoming tasks due. You're all caught up!",
       );
     } else {
       tasks.forEach((task) => section.appendChild(createTask(task)));

@@ -1,7 +1,4 @@
-import Project from "../models/project";
-import Todo from "../models/todo";
 import applogic from "../logic/applogic";
-import createTask from "./taskRender.js";
 import allTasksView from "./allTasks.js";
 import todayView from "./todayView.js";
 import upcomingView from "./upcomingView.js";

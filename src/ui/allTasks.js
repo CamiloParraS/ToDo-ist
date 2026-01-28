@@ -1,12 +1,4 @@
-import {
-  isToday,
-  isBefore,
-  isAfter,
-  startOfDay,
-  endOfDay,
-  parseISO,
-  compareAsc,
-} from "date-fns";
+import { parseISO, compareAsc } from "date-fns";
 import createTask from "./taskRender.js";
 import { categorizeTask } from "../utils/DateUtils.js";
 
