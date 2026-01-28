@@ -2,6 +2,7 @@ import Project from "../models/project";
 import Todo from "../models/todo";
 import applogic from "../logic/applogic";
 import createTask from "./taskRender.js";
+import allTasksView from "./allTasks.js";
 
 const domController = {
   loadMainContent() {
@@ -19,25 +20,12 @@ const domController = {
     });
   },
 
-  loadTasks() {
+  loadTasks(view = allTasksView) {
     const tasksContainer = document.getElementById("tasks-container");
     tasksContainer.innerHTML = "";
+    const everything = applogic.projects.flatMap((project) => project.tasks);
 
-    applogic.projects.forEach((project) => {
-      if (project.name !== "root" && project.tasks.length > 0) {
-        const projectSection = document.createElement("div");
-        projectSection.classList.add("section");
-
-        projectSection.innerHTML = `<div class="section-header">${project.name}</div>`;
-
-        project.tasks.forEach((task) => {
-          const taskElement = createTask(task);
-          projectSection.appendChild(taskElement);
-        });
-
-        tasksContainer.appendChild(projectSection);
-      }
-    });
+    view.render(tasksContainer, everything);
   },
 
   createProject(name) {
