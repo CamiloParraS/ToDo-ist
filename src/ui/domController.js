@@ -13,7 +13,8 @@ const domController = {
 
   loadProjects() {
     const projectsContainer = document.getElementById("projects-container");
-    projectsContainer.innerHTML = "";
+    projectsContainer.replaceChildren();
+
     applogic.projects.forEach((project) => {
       if (project.name !== "root") {
         this.createProject(project.name);
@@ -23,7 +24,7 @@ const domController = {
 
   loadTasks(tasks, view = allTasksView) {
     const tasksContainer = document.getElementById("tasks-container");
-    tasksContainer.innerHTML = "";
+    tasksContainer.replaceChildren();
     view.render(tasksContainer, tasks);
   },
 
@@ -58,6 +59,7 @@ const domController = {
     hashSpan.textContent = "#";
 
     projectDiv.appendChild(hashSpan);
+    // Use append to add text safely alongside elements
     projectDiv.append(` ${name}`);
 
     projectsContainer.appendChild(projectDiv);

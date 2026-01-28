@@ -2,30 +2,51 @@ export default function createTask(task) {
   const taskDiv = document.createElement("div");
   taskDiv.classList.add("task");
 
-  taskDiv.innerHTML = `
-        <div class="task-checkbox" id="task-checkbox"></div>
-        <div class="task-content">
-            <div class="task-title">
-              ${task.title}
-              <span class="priority-label">${task.priority}</span>
-            </div>
-            <div class="task-description">
-                <span>${task.description}</span>
-            </div>
-            <div class="task-meta">
-                <span class="task-date">${task.dueFormatedDate}</span>
-                <span class="task-project">${task.project}</span>
-            </div>
-        </div>
-  `;
+  const checkbox = document.createElement("div");
+  checkbox.className = "task-checkbox";
+  checkbox.id = "task-checkbox";
 
-  const checkbox = taskDiv.querySelector(".task-checkbox");
+  const taskContent = document.createElement("div");
+  taskContent.className = "task-content";
+
+  const taskTitle = document.createElement("div");
+  taskTitle.className = "task-title";
+  taskTitle.textContent = `${task.title} `;
+
+  const priorityLabel = document.createElement("span");
+  priorityLabel.className = "priority-label";
+  priorityLabel.textContent = task.priority;
+  taskTitle.appendChild(priorityLabel);
+
+  const taskDescription = document.createElement("div");
+  taskDescription.className = "task-description";
+  const descSpan = document.createElement("span");
+  descSpan.textContent = task.description;
+  taskDescription.appendChild(descSpan);
+
+  const taskMeta = document.createElement("div");
+  taskMeta.className = "task-meta";
+
+  const taskDate = document.createElement("span");
+  taskDate.className = "task-date";
+  taskDate.textContent = task.dueFormatedDate;
+
+  const taskProject = document.createElement("span");
+  taskProject.className = "task-project";
+  taskProject.textContent = task.project;
+
+  taskMeta.append(taskDate, taskProject);
+
+  taskContent.append(taskTitle, taskDescription, taskMeta);
+
+  taskDiv.append(checkbox, taskContent);
 
   checkbox.addEventListener("click", () => {
     task.toggleStatus();
-    const isCompleted = taskDiv.classList.toggle("completed", task.completed);
+    taskDiv.classList.toggle("completed", task.completed);
     checkbox.classList.toggle("completed", task.completed);
     console.log(task);
   });
+
   return taskDiv;
 }

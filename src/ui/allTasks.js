@@ -7,7 +7,9 @@ const allTasksView = {
     const section = document.createElement("div");
 
     if (tasks.length === 0) {
-      section.innerHTML = `<div>No tasks found</div>`;
+      const emptyMsg = document.createElement("div");
+      emptyMsg.textContent = "No tasks found";
+      section.appendChild(emptyMsg);
       container.appendChild(section);
       return;
     }
@@ -49,13 +51,17 @@ const allTasksView = {
     categoryDiv.className = `section`;
 
     const catHeader = document.createElement("div");
-    catHeader.innerHTML = `
-      <span class="section-header">${title} (${tasks.length})</span>
-    `;
+    const headerSpan = document.createElement("span");
+    headerSpan.className = "section-header";
+    headerSpan.textContent = `${title} (${tasks.length})`;
+
+    catHeader.appendChild(headerSpan);
     categoryDiv.appendChild(catHeader);
 
     if (tasks.length === 0) {
-      categoryDiv.innerHTML += `<div>No ${title.toLowerCase()} tasks</div>`;
+      const emptyMsg = document.createElement("div");
+      emptyMsg.textContent = `No ${title.toLowerCase()} tasks`;
+      categoryDiv.appendChild(emptyMsg);
     } else {
       tasks.forEach((task) => {
         categoryDiv.appendChild(createTask(task));
