@@ -10,7 +10,7 @@ export default function createTask(task) {
               <span class="priority-label">${task.priority}</span>
             </div>
             <div class="task-description">
-                <span class="task-time">${task.description}</span>
+                <span>${task.description}</span>
             </div>
             <div class="task-meta">
                 <span class="task-date">${task.dueFormatedDate}</span>
