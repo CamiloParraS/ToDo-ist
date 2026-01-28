@@ -28,7 +28,7 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
-    font-size: 13px;
+    font-size: 15px;
     color: #cccccc;
     transition: background-color 0.2s;
 }
@@ -45,7 +45,7 @@ body {
 
 .section-title {
     padding: 20px 20px 10px;
-    font-size: 11px;
+    font-size: 15px;
     font-weight: 600;
     color: #858585;
     text-transform: uppercase;
@@ -57,8 +57,13 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
-    font-size: 13px;
+    font-size: 15px;
     color: #cccccc;
+}
+
+.add-task-btn {
+    color: #4ec9b0;
+    font-weight: 600;
 }
 
 .project-item:hover {
@@ -85,7 +90,7 @@ body {
 }
 
 .main-header h1 {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 700;
     margin-bottom: 5px;
     color: #4fc3f7;
@@ -121,11 +126,31 @@ body {
 }
 
 .task {
+    position: relative;
+    padding-left: 20px;
+
     display: flex;
     align-items: flex-start;
     padding: 10px;
     border-left: 2px solid transparent;
     margin-bottom: 5px;
+}
+
+.task::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--border) 20%,
+        var(--border) 80%,
+        transparent 100%
+    );
+    opacity: 0.3;
 }
 
 .task:hover {
@@ -157,8 +182,32 @@ body {
 .task-meta {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 11px;
+    gap: 12px;
+    font-size: 12px;
+    color: #858585;
+}
+
+.task-description {
+    font-size: 12px;
+    color: #858585;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.task-date {
+    color: #f48771;
+}
+
+.task-project::before {
+    content: "# ";
+}
+.task-project {
+    margin-left: auto;
+    color: #569cd6;
+    background: rgba(86, 156, 214, 0.1);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid rgba(86, 156, 214, 0.2);
 }
 
 .task-time {
@@ -168,15 +217,47 @@ body {
     gap: 4px;
 }
 
+.task-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #858585;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-checkbox:hover {
+    border-color: #4fc3f7;
+}
+
+.task.completed .task-checkbox {
+    background-color: #4fc3f7;
+    border-color: #4fc3f7;
+}
+
+.task.completed .task-checkbox::after {
+    content: "✓";
+    color: #000;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.task.completed .task-title {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
 /* Priority Labels */
 .priority-label {
     display: inline-block;
     padding: 2px 8px;
     border-radius: 3px;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-left: 8px;
 }
-

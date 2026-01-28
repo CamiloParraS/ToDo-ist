@@ -9,12 +9,12 @@ export default function createTask(task) {
               ${task.title}
               <span class="priority-label">${task.priority}</span>
             </div>
-            <div class="task-meta">
+            <div class="task-description">
                 <span class="task-time">${task.description}</span>
             </div>
             <div class="task-meta">
-                <span class="task-time">${task.dueFormatedDate}</span>
-                <span class="">${task.project}</span>
+                <span class="task-date">${task.dueFormatedDate}</span>
+                <span class="task-project">${task.project}</span>
             </div>
         </div>
   `;
@@ -23,6 +23,8 @@ export default function createTask(task) {
 
   checkbox.addEventListener("click", () => {
     task.toggleStatus();
+    const isCompleted = taskDiv.classList.toggle("completed", task.completed);
+    checkbox.classList.toggle("completed", task.completed);
     console.log(task);
   });
   return taskDiv;
