@@ -4,6 +4,7 @@ import applogic from "../logic/applogic";
 import createTask from "./taskRender.js";
 import allTasksView from "./allTasks.js";
 import todayView from "./todayView.js";
+import upcomingView from "./upcomingView.js";
 import { filters } from "../utils/DateUtils.js";
 
 const domController = {
@@ -42,6 +43,10 @@ const domController = {
 
     document.getElementById("all-btn").addEventListener("click", () => {
       handleNavClick("all", allTasksView);
+    });
+
+    document.getElementById("upcoming-btn").addEventListener("click", () => {
+      handleNavClick("upcoming", upcomingView);
     });
   },
 
