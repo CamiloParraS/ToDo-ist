@@ -64,4 +64,16 @@ export default class Todo {
   toggleStatus() {
     this.complete = !this.complete;
   }
+
+  // ALL
+  getTaskInfo() {
+    return (
+      this.name,
+      this.description,
+      this.dueDate,
+      this.priority,
+      this.complete,
+      this.project
+    );
+  }
 }
