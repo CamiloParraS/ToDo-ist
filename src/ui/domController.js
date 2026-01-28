@@ -1,6 +1,7 @@
 import Project from "../models/project";
 import Todo from "../models/todo";
 import applogic from "../logic/applogic";
+import createTask from "./taskRender.js";
 
 const domController = {
   loadMainContent() {
@@ -30,7 +31,7 @@ const domController = {
         projectSection.innerHTML = `<div class="section-header">${project.name}</div>`;
 
         project.tasks.forEach((task) => {
-          const taskElement = this.createTask(task);
+          const taskElement = createTask(task);
           projectSection.appendChild(taskElement);
         });
 
@@ -47,35 +48,6 @@ const domController = {
           ${name}
         </div>
     `;
-  },
-
-  createTask(task) {
-    const taskDiv = document.createElement("div");
-    taskDiv.classList.add("task");
-
-    taskDiv.innerHTML = `
-          <div class="task-checkbox" id="task-checkbox"></div>
-          <div class="task-content">
-              <div class="task-title">
-                ${task.title}
-                <span class="priority-label">${task.priority}</span>
-              </div>
-              <div class="task-meta">
-                  <span class="task-time">${task.description}</span>
-              </div>
-              <div class="task-meta">
-                  <span class="task-time">${task.dueFormatedDate}</span>
-                  <span class="">${task.project}</span>
-              </div>
-          </div>
-    `;
-
-    const checkbox = taskDiv.querySelector(".task-checkbox");
-
-    checkbox.addEventListener("click", () => {
-      task.toggleStatus();
-    });
-    return taskDiv;
   },
 };
 
