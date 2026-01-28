@@ -46,13 +46,19 @@ const domController = {
   },
 
   createProject(name) {
-    const userProjects = document.getElementById("projects-container");
-    userProjects.innerHTML += `
-      <div class="project-item">
-        <span class="project-hash">#</span>
-          ${name}
-        </div>
-    `;
+    const projectsContainer = document.getElementById("projects-container");
+
+    const projectDiv = document.createElement("div");
+    projectDiv.classList.add("project-item");
+
+    const hashSpan = document.createElement("span");
+    hashSpan.classList.add("project-hash");
+    hashSpan.textContent = "#";
+
+    projectDiv.appendChild(hashSpan);
+    projectDiv.append(` ${name}`);
+
+    projectsContainer.appendChild(projectDiv);
   },
 };
 
