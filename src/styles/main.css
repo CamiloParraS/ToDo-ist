@@ -138,6 +138,7 @@ body {
 
 .section-header:before {
     content: "// ";
+    padding-right: 15px;
     color: #6a9955;
 }
 
