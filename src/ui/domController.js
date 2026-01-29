@@ -68,7 +68,6 @@ const domController = {
     hashSpan.textContent = "#";
 
     projectDiv.appendChild(hashSpan);
-    // Use append to add text safely alongside elements
     projectDiv.append(` ${name}`);
 
     projectsContainer.appendChild(projectDiv);

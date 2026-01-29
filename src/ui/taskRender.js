@@ -14,9 +14,8 @@ export default function createTask(task) {
   taskTitle.textContent = `${task.title} `;
 
   const priorityLabel = document.createElement("span");
-  priorityLabel.className = "priority-label";
+  priorityLabel.className = `priority-label priority-${task.priority}`;
   priorityLabel.textContent = task.priority;
-  taskTitle.appendChild(priorityLabel);
 
   const taskDescription = document.createElement("div");
   taskDescription.className = "task-description";
@@ -35,7 +34,7 @@ export default function createTask(task) {
   taskProject.className = "task-project";
   taskProject.textContent = task.project;
 
-  taskMeta.append(taskDate, taskProject);
+  taskMeta.append(taskDate, priorityLabel, taskProject);
 
   taskContent.append(taskTitle, taskDescription, taskMeta);
 

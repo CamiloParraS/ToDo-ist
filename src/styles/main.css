@@ -65,6 +65,15 @@ body {
 .add-task-btn {
     color: #4ec9b0;
     font-weight: 600;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.2s;
+}
+
+.add-task-btn:hover {
+    opacity: 0.8;
 }
 
 .project-item:hover {
@@ -129,7 +138,9 @@ body {
 .section-header {
     font-size: 14px;
     font-weight: 700;
-    margin-bottom: 20px;
+
+    padding-bottom: 10px;
+    border-bottom: 1px solid #2d2d30;
     color: #dcdcaa;
     display: flex;
     align-items: center;
@@ -148,7 +159,7 @@ body {
     padding: 16px;
     transition: background-color 0.2s;
     position: relative;
-    border-top: 1px solid #2d2d30;
+    border-bottom: 1px solid #2d2d30;
 }
 
 .task::before {
@@ -219,7 +230,7 @@ body {
     content: "# ";
 }
 .task-project {
-    margin-left: auto;
+    /*margin-left: auto;*/
     color: #569cd6;
     background: rgba(86, 156, 214, 0.1);
     padding: 2px 6px;
@@ -272,9 +283,26 @@ body {
     display: inline-block;
     padding: 2px 8px;
     border-radius: 3px;
-    font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-left: 8px;
+    margin-left: auto;
+}
+
+.priority-1 {
+    background-color: rgba(244, 135, 113, 0.15);
+    color: #f48771;
+    border: 1px solid #f48771;
+}
+
+.priority-2 {
+    background-color: rgba(250, 163, 86, 0.15);
+    color: #faa356;
+    border: 1px solid #faa356;
+}
+
+.priority-3 {
+    background-color: rgba(86, 156, 214, 0.15);
+    color: #569cd6;
+    border: 1px solid #569cd6;
 }
