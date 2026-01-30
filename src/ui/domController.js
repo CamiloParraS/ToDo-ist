@@ -77,7 +77,7 @@ const domController = {
     hashSpan.textContent = "#";
 
     projectDiv.addEventListener("click", () => {
-      this.handleNavClick(project.id, project.name, projectView, true);
+      this.handleNavClick(project.id, project.name, allTasksView, true);
     });
 
     projectDiv.appendChild(hashSpan);
