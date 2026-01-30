@@ -1,6 +1,6 @@
 import { parseISO, compareAsc } from "date-fns";
-import createTask from "./taskRender.js";
-import { categorizeTask } from "../utils/DateUtils.js";
+import createTask from "../components/taskRender.js";
+import { categorizeTask } from "../../utils/DateUtils.js";
 
 const allTasksView = {
   render(container, tasks) {

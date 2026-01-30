@@ -1,4 +1,4 @@
-import createTask from "./taskRender";
+import createTask from "../components/taskRender.js";
 
 const todayView = {
   render(container, tasks) {

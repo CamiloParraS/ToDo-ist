@@ -1,7 +1,7 @@
 import applogic from "../logic/applogic";
-import allTasksView from "./allTasks.js";
-import todayView from "./todayView.js";
-import upcomingView from "./upcomingView.js";
+import allTasksView from "./views/allTasks.js";
+import todayView from "./views/todayView.js";
+import upcomingView from "./views/upcomingView.js";
 import { filters } from "../utils/DateUtils.js";
 
 const domController = {
@@ -17,8 +17,8 @@ const domController = {
     projectsContainer.replaceChildren();
 
     applogic.projects.forEach((project) => {
-      if (project.name !== "root") {
-        this.createProject(project.name);
+      if (project.id !== "root") {
+        this.createProject(project);
       }
     });
   },
@@ -29,35 +29,44 @@ const domController = {
     view.render(tasksContainer, tasks);
   },
 
-  bindEvents() {
-    const handleNavClick = (filterKey, title, viewElement) => {
-      const allTasks = applogic.projects.flatMap((p) => p.tasks);
+  handleNavClick(filterKey, title, viewElement, isProject = false) {
+    const allTasks = applogic.projects.flatMap((p) => p.tasks);
+
+    if (isProject) {
+      const project = applogic.projects.find((p) => p.id === filterKey);
+      const tasks = project ? project.tasks : [];
+
+      this.setActiveView(filterKey, title);
+      this.loadTasks(tasks, viewElement);
+    } else {
       const filteredTasks =
         filterKey === "all" ? allTasks : filters[filterKey](allTasks);
       this.setActiveView(filterKey, title);
       this.loadTasks(filteredTasks, viewElement);
-    };
+    }
+  },
 
+  bindEvents() {
     document
       .getElementById("today-btn")
       .addEventListener("click", () =>
-        handleNavClick("today", "Today", todayView),
+        this.handleNavClick("today", "Today", todayView),
       );
 
     document
       .getElementById("upcoming-btn")
       .addEventListener("click", () =>
-        handleNavClick("upcoming", "Upcoming Tasks", upcomingView),
+        this.handleNavClick("upcoming", "Upcoming Tasks", upcomingView),
       );
 
     document
       .getElementById("all-btn")
       .addEventListener("click", () =>
-        handleNavClick("all", "All Tasks", allTasksView),
+        this.handleNavClick("all", "All Tasks", allTasksView),
       );
   },
 
-  createProject(name) {
+  createProject(project) {
     const projectsContainer = document.getElementById("projects-container");
 
     const projectDiv = document.createElement("div");
@@ -67,8 +76,12 @@ const domController = {
     hashSpan.classList.add("project-hash");
     hashSpan.textContent = "#";
 
+    projectDiv.addEventListener("click", () => {
+      this.handleNavClick(project.id, project.name, projectView, true);
+    });
+
     projectDiv.appendChild(hashSpan);
-    projectDiv.append(` ${name}`);
+    projectDiv.append(` ${project.name}`);
 
     projectsContainer.appendChild(projectDiv);
   },
