@@ -5,7 +5,7 @@ class applogic {
   constructor() {
     this.projects = [];
 
-    const defaultProject = new Project("root");
+    const defaultProject = new Project("root", "root");
     this.addProject(defaultProject);
   }
 

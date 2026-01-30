@@ -1,8 +1,8 @@
 import { toDate, isToday, isThisWeek, subDays } from "date-fns";
 
 export default class Project {
-  constructor(name) {
-    this._id = crypto.randomUUID();
+  constructor(name, id = crypto.randomUUID()) {
+    this._id = id;
 
     this.name = name;
     this._tasks = [];
