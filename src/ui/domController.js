@@ -70,7 +70,7 @@ const domController = {
     const projectsContainer = document.getElementById("projects-container");
 
     const projectDiv = document.createElement("div");
-    projectDiv.classList.add("project-item");
+    projectDiv.classList.add("menu-item", "project-item");
 
     const hashSpan = document.createElement("span");
     hashSpan.classList.add("project-hash");
@@ -80,18 +80,21 @@ const domController = {
       this.handleNavClick(project.id, project.name, allTasksView, true);
     });
 
+    projectDiv.id = `${project.id}-btn`;
+
     projectDiv.appendChild(hashSpan);
     projectDiv.append(` ${project.name}`);
 
     projectsContainer.appendChild(projectDiv);
   },
 
-  setActiveView(viewName, headerText) {
+  setActiveView(viewID, headerText) {
     document.querySelectorAll(".menu-item").forEach((item) => {
       item.classList.remove("active");
     });
 
-    const activeBtn = document.getElementById(`${viewName}-btn`);
+    const activeBtn = document.getElementById(`${viewID}-btn`);
+
     if (activeBtn) activeBtn.classList.add("active");
 
     const header = document.querySelector(".main-header h1");
