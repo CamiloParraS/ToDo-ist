@@ -8,8 +8,14 @@ const domController = {
   loadMainContent() {
     this.loadProjects();
     const allTasks = applogic.projects.flatMap((project) => project.tasks);
-    this.setActiveView("all", "All Tasks");
-    this.loadTasks(allTasks, allTasksView);
+    this.handleNavClick("all", "All Tasks", allTasksView);
+  },
+
+  currentView: {
+    filterKey: "all",
+    viewElement: allTasksView,
+    isProject: false,
+    title: "all",
   },
 
   loadProjects() {
@@ -30,6 +36,16 @@ const domController = {
   },
 
   handleNavClick(filterKey, title, viewElement, isProject = false) {
+    this.currentView.filterKey = filterKey;
+    this.currentView.viewElement = viewElement;
+    this.currentView.isProject = isProject;
+    this.currentView.title = title;
+
+    this.refreshCurrentView();
+  },
+
+  refreshCurrentView() {
+    const { filterKey, viewElement, isProject, title } = this.currentView;
     const allTasks = applogic.projects.flatMap((p) => p.tasks);
 
     if (isProject) {
