@@ -6,6 +6,8 @@ import createTaskForm from "./components/taskForm.js";
 import { filters } from "../utils/DateUtils.js";
 
 const domController = {
+  isFormOpen: false,
+
   loadMainContent() {
     this.loadProjects();
     const allTasks = applogic.projects.flatMap((project) => project.tasks);
@@ -37,6 +39,8 @@ const domController = {
   },
 
   handleNavClick(filterKey, title, viewElement, isProject = false) {
+    this.isFormOpen = false;
+
     this.currentView.filterKey = filterKey;
     this.currentView.viewElement = viewElement;
     this.currentView.isProject = isProject;
@@ -64,15 +68,20 @@ const domController = {
   },
 
   showAddTaskForm() {
+    if (this.isFormOpen) return;
+
+    this.isFormOpen = true;
     const container = document.getElementById("tasks-container");
 
     const form = createTaskForm(
       (taskData) => {
         // applogic.addTask(taskData);
         this.refreshCurrentView();
+        this.isFormOpen = false;
       },
       () => {
         this.refreshCurrentView();
+        this.isFormOpen = false;
       },
     );
 
