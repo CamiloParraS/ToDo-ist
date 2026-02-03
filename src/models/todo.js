@@ -6,7 +6,7 @@ export default class Todo {
     description,
     dueDate = null,
     priority = 1,
-    project = "inbox",
+    project = "root",
   ) {
     this.id = crypto.randomUUID();
     this.complete = false;
@@ -58,10 +58,10 @@ export default class Todo {
   }
 
   // STATUS
-  get status() {
+  get isComplete() {
     return this.complete;
   }
-  toggleStatus() {
+  toggleComplete() {
     this.complete = !this.complete;
   }
 

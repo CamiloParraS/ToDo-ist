@@ -1,3 +1,5 @@
+import appLogicInstance from "../../logic/applogic";
+
 export default function createTask(task) {
   const taskDiv = document.createElement("div");
   taskDiv.classList.add("task");
@@ -32,7 +34,8 @@ export default function createTask(task) {
 
   const taskProject = document.createElement("span");
   taskProject.className = "task-project";
-  taskProject.textContent = task.project;
+
+  taskProject.textContent = appLogicInstance.getProject(task.project).name;
 
   taskMeta.append(taskDate, priorityLabel, taskProject);
 
@@ -41,7 +44,7 @@ export default function createTask(task) {
   taskDiv.append(checkbox, taskContent);
 
   checkbox.addEventListener("click", () => {
-    task.toggleStatus();
+    task.toggleComplete();
     taskDiv.classList.toggle("completed", task.completed);
     checkbox.classList.toggle("completed", task.completed);
     console.log(task);
