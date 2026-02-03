@@ -2,6 +2,7 @@ import applogic from "../logic/applogic";
 import allTasksView from "./views/allTasks.js";
 import todayView from "./views/todayView.js";
 import upcomingView from "./views/upcomingView.js";
+import createTaskForm from "./components/taskForm.js";
 import { filters } from "../utils/DateUtils.js";
 
 const domController = {
@@ -62,6 +63,23 @@ const domController = {
     }
   },
 
+  showAddTaskForm() {
+    const container = document.getElementById("tasks-container");
+
+    const form = createTaskForm(
+      (taskData) => {
+        // applogic.addTask(taskData);
+        this.refreshCurrentView();
+      },
+      () => {
+        this.refreshCurrentView();
+      },
+    );
+
+    container.prepend(form);
+    form.querySelector(".task-form-title").focus();
+  },
+
   bindEvents() {
     document
       .getElementById("today-btn")
@@ -80,6 +98,10 @@ const domController = {
       .addEventListener("click", () =>
         this.handleNavClick("all", "All Tasks", allTasksView),
       );
+
+    document
+      .getElementById("addTask-btn")
+      .addEventListener("click", () => this.showAddTaskForm());
   },
 
   createProject(project) {
