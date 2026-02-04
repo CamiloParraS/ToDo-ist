@@ -109,6 +109,12 @@ const domController = {
       );
 
     document
+      .getElementById("root-btn")
+      .addEventListener("click", () =>
+        this.handleNavClick("root", "root", allTasksView, true),
+      );
+
+    document
       .getElementById("addTask-btn")
       .addEventListener("click", () => this.showAddTaskForm());
   },
