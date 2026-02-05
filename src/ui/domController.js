@@ -75,7 +75,7 @@ const domController = {
 
     const form = createTaskForm(
       (taskData) => {
-        // applogic.addTask(taskData);
+        applogic.addTask(taskData.projectId, taskData);
         this.refreshCurrentView();
         this.isFormOpen = false;
       },
