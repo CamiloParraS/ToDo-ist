@@ -39,7 +39,7 @@ class applogic {
       taskData.title,
       taskData.description,
       taskData.dueDate,
-      taskData.priority,
+      Number(taskData.priority),
     );
 
     if (project.tasks.some((task) => task.id === newTask.id)) return;

@@ -24,8 +24,16 @@ export default function createTask(task) {
   taskTitle.textContent = `${task.title} `;
 
   const priorityLabel = document.createElement("span");
+  const priorities = [
+    { value: "1", label: "High" },
+    { value: "2", label: "Medium" },
+    { value: "3", label: "Low" },
+  ];
+  const priorityValue = priorities.find(
+    (p) => p.value === String(task.priority),
+  );
   priorityLabel.className = `priority-label priority-${task.priority}`;
-  priorityLabel.textContent = task.priority;
+  priorityLabel.textContent = priorityValue.label;
 
   const taskDescription = document.createElement("div");
   taskDescription.className = "task-description";
