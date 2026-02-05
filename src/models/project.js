@@ -29,12 +29,6 @@ export default class Project {
     this._tasks = tasks;
   }
 
-  addTask(newTask) {
-    if (this._tasks.some((task) => task.id === newTask.id)) return;
-    newTask.project = this.id;
-    this._tasks.push(newTask);
-  }
-
   deleteTask(id) {
     this._tasks = this._tasks.filter((task) => task.id !== id);
   }

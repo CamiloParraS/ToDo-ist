@@ -1,5 +1,6 @@
 import Project from "../models/project";
 import Todo from "../models/todo";
+import debug from "../debug/debug.js";
 
 class applogic {
   constructor() {
@@ -29,7 +30,38 @@ class applogic {
   deleteProject(projectId) {
     this._projects = this._projects.filter((p) => p.id !== projectId);
   }
+
+  addTask(projectId, taskData) {
+    const project = this.getProject(projectId);
+    if (!project) return;
+
+    const newTask = new Todo(
+      taskData.title,
+      taskData.description,
+      taskData.dueDate,
+      taskData.priority,
+    );
+
+    if (project.tasks.some((task) => task.id === newTask.id)) return;
+    newTask.project = projectId;
+    project.tasks.push(newTask);
+  }
+
+  deleteTask(projectId, taskId) {
+    const project = this.getProject(projectId);
+    if (!project) return;
+
+    project.deleteTask(taskId);
+  }
+
+  getTask(projectId, taskId) {
+    const project = this.getProject(projectId);
+    if (!project) return null;
+
+    return project.getTask(taskId);
+  }
 }
 
 const appLogicInstance = new applogic();
+debug(appLogicInstance);
 export default appLogicInstance;
