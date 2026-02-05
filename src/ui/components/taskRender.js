@@ -4,9 +4,17 @@ export default function createTask(task) {
   const taskDiv = document.createElement("div");
   taskDiv.classList.add("task");
 
-  const checkbox = document.createElement("div");
-  checkbox.className = "task-checkbox";
-  checkbox.id = "task-checkbox";
+  const checkboxContainer = document.createElement("label");
+  checkboxContainer.className = "task-checkbox-container";
+
+  const checkboxInput = document.createElement("input");
+  checkboxInput.type = "checkbox";
+  checkboxInput.checked = task.completed;
+
+  const checkmark = document.createElement("div");
+  checkmark.className = "checkmark";
+
+  checkboxContainer.append(checkboxInput, checkmark);
 
   const taskContent = document.createElement("div");
   taskContent.className = "task-content";
@@ -41,12 +49,16 @@ export default function createTask(task) {
 
   taskContent.append(taskTitle, taskDescription, taskMeta);
 
-  taskDiv.append(checkbox, taskContent);
+  taskDiv.append(checkboxContainer, taskContent);
 
-  checkbox.addEventListener("click", () => {
+  if (task.completed) {
+    taskDiv.classList.add("completed");
+  }
+
+  checkboxInput.addEventListener("change", () => {
     task.toggleComplete();
     taskDiv.classList.toggle("completed", task.completed);
-    checkbox.classList.toggle("completed", task.completed);
+    checkboxInput.checked = task.completed;
     console.log(task);
   });
 
