@@ -34,7 +34,7 @@ export function parseTodoDate(value) {
 }
 
 export function formatTodoDate(date) {
-  if (!date || !isValid(date)) return "";
+  if (!date || !isValid(date)) return "No Date";
 
   const now = new Date();
 
