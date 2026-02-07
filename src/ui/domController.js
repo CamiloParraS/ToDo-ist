@@ -137,6 +137,39 @@ const domController = {
         this.handleNavClick("root", "root", allTasksView, true),
       );
 
+  bindEvents() {
+    const navButtons = [
+      { id: "today-btn", filterKey: "today", title: "Today", view: todayView },
+      {
+        id: "upcoming-btn",
+        filterKey: "upcoming",
+        title: "Upcoming Tasks",
+        view: upcomingView,
+      },
+      {
+        id: "all-btn",
+        filterKey: "all",
+        title: "All Tasks",
+        view: allTasksView,
+      },
+      {
+        id: "root-btn",
+        filterKey: "root",
+        title: "root",
+        view: allTasksView,
+        isProject: true,
+      },
+    ];
+
+    navButtons.forEach(({ id, filterKey, title, view, isProject = false }) => {
+      document
+        .getElementById(id)
+        .addEventListener("click", () =>
+          this.handleNavClick(filterKey, title, view, isProject),
+        );
+    });
+
+    // Special actions
     document
       .getElementById("addTask-btn")
       .addEventListener("click", () => this.showAddTaskForm());
