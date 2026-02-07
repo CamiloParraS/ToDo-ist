@@ -40,8 +40,6 @@ const domController = {
   },
 
   handleNavClick(filterKey, title, viewElement, isProject = false) {
-    this.isFormOpen = false;
-
     this.currentView.filterKey = filterKey;
     this.currentView.viewElement = viewElement;
     this.currentView.isProject = isProject;
@@ -66,12 +64,26 @@ const domController = {
       this.setActiveView(filterKey, title);
       this.loadTasks(filteredTasks, viewElement);
     }
+
+    this.reinjectForms();
+  },
+
+  reinjectForms() {
+    this.activeForms.forEach(({ element, containerId, placement }) => {
+      const container = document.getElementById(containerId);
+      if (container) {
+        placement === "prepend"
+          ? container.prepend(element)
+          : container.append(element);
+      }
+    });
   },
 
   renderForm(formId, containerId, formCreator, onSaveLogic) {
     if (this.activeForms.has(formId)) return;
 
     const container = document.getElementById(containerId);
+    const placement = containerId === "tasks-container" ? "prepend" : "append";
 
     const form = formCreator(
       (data) => {
@@ -82,27 +94,25 @@ const domController = {
         this.closeForm(formId);
       },
     );
-    this.activeForms.set(formId, form);
+    this.activeForms.set(formId, { element: form, containerId, placement });
 
-    containerId === "tasks-container"
-      ? container.prepend(form)
-      : container.append(form);
+    placement === "prepend" ? container.prepend(form) : container.append(form);
 
     const input = form.querySelector("input, textarea");
     if (input) input.focus();
   },
 
   closeForm(formId) {
-    const form = this.activeForms.get(formId);
-    if (!form) return;
+    const formObj = this.activeForms.get(formId);
+    if (!formObj) return;
 
-    form.remove();
+    formObj.element.remove();
     this.activeForms.delete(formId);
   },
 
   showAddTaskForm() {
     this.renderForm(
-      "task-form",
+      "task-main",
       "tasks-container",
       createTaskForm,
       (taskData) => {
@@ -114,7 +124,7 @@ const domController = {
 
   showProjectForm() {
     this.renderForm(
-      "project-form",
+      "project-new",
       "newProjectSection",
       createProjectForm,
       (projectData) => {
@@ -194,7 +204,6 @@ const domController = {
     });
 
     const activeBtn = document.getElementById(`${viewID}-btn`);
-
     if (activeBtn) activeBtn.classList.add("active");
 
     const header = document.querySelector(".main-header h1");
