@@ -3,6 +3,7 @@ import allTasksView from "./views/allTasks.js";
 import todayView from "./views/todayView.js";
 import upcomingView from "./views/upcomingView.js";
 import createTaskForm from "./components/taskForm.js";
+import createProjectForm from "./components/projectModal.js";
 import { filters } from "../utils/DateUtils.js";
 
 const domController = {
@@ -84,9 +85,31 @@ const domController = {
         this.isFormOpen = false;
       },
     );
-
     container.prepend(form);
     form.querySelector(".task-form-title").focus();
+  },
+
+  showProjectForm() {
+    if (this.isFormOpen) return;
+
+    this.isFormOpen = true;
+    const container = document.getElementById("newProjectSection");
+
+    const form = createProjectForm(
+      (projectData) => {
+        applogic.createProject(projectData.name);
+        this.loadProjects();
+        this.refreshCurrentView();
+        form.remove();
+        this.isFormOpen = false;
+      },
+      () => {
+        form.remove();
+        this.isFormOpen = false;
+      },
+    );
+    container.append(form);
+    form.querySelector(".project-form-title").focus();
   },
 
   bindEvents() {
@@ -117,6 +140,10 @@ const domController = {
     document
       .getElementById("addTask-btn")
       .addEventListener("click", () => this.showAddTaskForm());
+
+    document
+      .getElementById("addProject-btn")
+      .addEventListener("click", () => this.showProjectForm());
   },
 
   createProject(project) {
