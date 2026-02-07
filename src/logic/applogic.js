@@ -27,6 +27,12 @@ class applogic {
     this.projects.push(newProject);
   }
 
+  createProject(projectName) {
+    const newProject = new Project(projectName);
+    this.addProject(newProject);
+    return newProject;
+  }
+
   deleteProject(projectId) {
     this._projects = this._projects.filter((p) => p.id !== projectId);
   }
