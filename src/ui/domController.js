@@ -7,7 +7,7 @@ import createProjectForm from "./components/projectModal.js";
 import { filters } from "../utils/DateUtils.js";
 
 const domController = {
-  isFormOpen: false,
+  activeForms: new Map(),
 
   loadMainContent() {
     this.loadProjects();
@@ -68,25 +68,22 @@ const domController = {
     }
   },
 
-  renderForm(containerId, formCreator, onSaveLogic) {
-    if (this.isFormOpen) return;
-    this.isFormOpen = true;
+  renderForm(formId, containerId, formCreator, onSaveLogic) {
+    if (this.activeForms.has(formId)) return;
 
     const container = document.getElementById(containerId);
 
     const form = formCreator(
       (data) => {
         onSaveLogic(data);
-        this.refreshCurrentView();
-        if (containerId === "newProjectSection") form.remove();
-        this.isFormOpen = false;
+        this.closeForm(formId);
       },
       () => {
-        if (containerId === "newProjectSection") form.remove();
-        this.refreshCurrentView();
-        this.isFormOpen = false;
+        this.closeForm(formId);
       },
     );
+    this.activeForms.set(formId, form);
+
     containerId === "tasks-container"
       ? container.prepend(form)
       : container.append(form);
@@ -95,17 +92,36 @@ const domController = {
     if (input) input.focus();
   },
 
+  closeForm(formId) {
+    const form = this.activeForms.get(formId);
+    if (!form) return;
+
+    form.remove();
+    this.activeForms.delete(formId);
+  },
+
   showAddTaskForm() {
-    this.renderForm("tasks-container", createTaskForm, (taskData) => {
-      applogic.addTask(taskData.projectId, taskData);
-    });
+    this.renderForm(
+      "task-form",
+      "tasks-container",
+      createTaskForm,
+      (taskData) => {
+        applogic.addTask(taskData.projectId, taskData);
+        this.refreshCurrentView();
+      },
+    );
   },
 
   showProjectForm() {
-    this.renderForm("newProjectSection", createProjectForm, (projectData) => {
-      applogic.createProject(projectData.name);
-      this.loadProjects();
-    });
+    this.renderForm(
+      "project-form",
+      "newProjectSection",
+      createProjectForm,
+      (projectData) => {
+        applogic.createProject(projectData.name);
+        this.loadProjects();
+      },
+    );
   },
 
   bindEvents() {
