@@ -68,74 +68,45 @@ const domController = {
     }
   },
 
-  showAddTaskForm() {
+  renderForm(containerId, formCreator, onSaveLogic) {
     if (this.isFormOpen) return;
-
     this.isFormOpen = true;
-    const container = document.getElementById("tasks-container");
 
-    const form = createTaskForm(
-      (taskData) => {
-        applogic.addTask(taskData.projectId, taskData);
+    const container = document.getElementById(containerId);
+
+    const form = formCreator(
+      (data) => {
+        onSaveLogic(data);
         this.refreshCurrentView();
+        if (containerId === "newProjectSection") form.remove();
         this.isFormOpen = false;
       },
       () => {
+        if (containerId === "newProjectSection") form.remove();
         this.refreshCurrentView();
         this.isFormOpen = false;
       },
     );
-    container.prepend(form);
-    form.querySelector(".task-form-title").focus();
+    containerId === "tasks-container"
+      ? container.prepend(form)
+      : container.append(form);
+
+    const input = form.querySelector("input, textarea");
+    if (input) input.focus();
+  },
+
+  showAddTaskForm() {
+    this.renderForm("tasks-container", createTaskForm, (taskData) => {
+      applogic.addTask(taskData.projectId, taskData);
+    });
   },
 
   showProjectForm() {
-    if (this.isFormOpen) return;
-
-    this.isFormOpen = true;
-    const container = document.getElementById("newProjectSection");
-
-    const form = createProjectForm(
-      (projectData) => {
-        applogic.createProject(projectData.name);
-        this.loadProjects();
-        this.refreshCurrentView();
-        form.remove();
-        this.isFormOpen = false;
-      },
-      () => {
-        form.remove();
-        this.isFormOpen = false;
-      },
-    );
-    container.append(form);
-    form.querySelector(".project-form-title").focus();
+    this.renderForm("newProjectSection", createProjectForm, (projectData) => {
+      applogic.createProject(projectData.name);
+      this.loadProjects();
+    });
   },
-
-  bindEvents() {
-    document
-      .getElementById("today-btn")
-      .addEventListener("click", () =>
-        this.handleNavClick("today", "Today", todayView),
-      );
-
-    document
-      .getElementById("upcoming-btn")
-      .addEventListener("click", () =>
-        this.handleNavClick("upcoming", "Upcoming Tasks", upcomingView),
-      );
-
-    document
-      .getElementById("all-btn")
-      .addEventListener("click", () =>
-        this.handleNavClick("all", "All Tasks", allTasksView),
-      );
-
-    document
-      .getElementById("root-btn")
-      .addEventListener("click", () =>
-        this.handleNavClick("root", "root", allTasksView, true),
-      );
 
   bindEvents() {
     const navButtons = [
