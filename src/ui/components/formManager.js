@@ -8,7 +8,8 @@ const formManager = {
     if (this.activeForms.has(formId)) return;
 
     const container = document.getElementById(containerId);
-    const placement = containerId === "tasks-container" ? "prepend" : "append";
+    const placement =
+      containerId === "taskForm-container" ? "prepend" : "append";
 
     const form = formCreator(
       (data) => {
@@ -39,7 +40,7 @@ const formManager = {
   showTaskForm(onSubmit, onCancel) {
     this.showForm(
       "task-main",
-      "tasks-container",
+      "taskForm-container",
       createTaskForm,
       onSubmit,
       onCancel,
