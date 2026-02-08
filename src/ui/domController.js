@@ -2,11 +2,11 @@ import applogic from "../logic/applogic";
 import allTasksView from "./views/allTasks.js";
 import todayView from "./views/todayView.js";
 import upcomingView from "./views/upcomingView.js";
-import createTaskForm from "./components/taskForm.js";
 import { filters } from "../utils/DateUtils.js";
+import formManager from "./components/formManager.js";
 
 const domController = {
-  isFormOpen: false,
+  activeForms: new Map(),
 
   loadMainContent() {
     this.loadProjects();
@@ -39,8 +39,6 @@ const domController = {
   },
 
   handleNavClick(filterKey, title, viewElement, isProject = false) {
-    this.isFormOpen = false;
-
     this.currentView.filterKey = filterKey;
     this.currentView.viewElement = viewElement;
     this.currentView.isProject = isProject;
@@ -68,55 +66,59 @@ const domController = {
   },
 
   showAddTaskForm() {
-    if (this.isFormOpen) return;
+    formManager.showTaskForm((taskData) => {
+      applogic.addTask(taskData.projectId, taskData);
+      this.refreshCurrentView();
+    });
+  },
 
-    this.isFormOpen = true;
-    const container = document.getElementById("tasks-container");
-
-    const form = createTaskForm(
-      (taskData) => {
-        applogic.addTask(taskData.projectId, taskData);
-        this.refreshCurrentView();
-        this.isFormOpen = false;
-      },
-      () => {
-        this.refreshCurrentView();
-        this.isFormOpen = false;
-      },
-    );
-
-    container.prepend(form);
-    form.querySelector(".task-form-title").focus();
+  showProjectForm() {
+    formManager.showProjectForm((projectData) => {
+      applogic.createProject(projectData.name);
+      this.loadProjects();
+    });
   },
 
   bindEvents() {
-    document
-      .getElementById("today-btn")
-      .addEventListener("click", () =>
-        this.handleNavClick("today", "Today", todayView),
-      );
+    const navButtons = [
+      { id: "today-btn", filterKey: "today", title: "Today", view: todayView },
+      {
+        id: "upcoming-btn",
+        filterKey: "upcoming",
+        title: "Upcoming Tasks",
+        view: upcomingView,
+      },
+      {
+        id: "all-btn",
+        filterKey: "all",
+        title: "All Tasks",
+        view: allTasksView,
+      },
+      {
+        id: "root-btn",
+        filterKey: "root",
+        title: "root",
+        view: allTasksView,
+        isProject: true,
+      },
+    ];
 
-    document
-      .getElementById("upcoming-btn")
-      .addEventListener("click", () =>
-        this.handleNavClick("upcoming", "Upcoming Tasks", upcomingView),
-      );
+    navButtons.forEach(({ id, filterKey, title, view, isProject = false }) => {
+      document
+        .getElementById(id)
+        .addEventListener("click", () =>
+          this.handleNavClick(filterKey, title, view, isProject),
+        );
+    });
 
-    document
-      .getElementById("all-btn")
-      .addEventListener("click", () =>
-        this.handleNavClick("all", "All Tasks", allTasksView),
-      );
-
-    document
-      .getElementById("root-btn")
-      .addEventListener("click", () =>
-        this.handleNavClick("root", "root", allTasksView, true),
-      );
-
+    // Special actions
     document
       .getElementById("addTask-btn")
       .addEventListener("click", () => this.showAddTaskForm());
+
+    document
+      .getElementById("addProject-btn")
+      .addEventListener("click", () => this.showProjectForm());
   },
 
   createProject(project) {
@@ -147,7 +149,6 @@ const domController = {
     });
 
     const activeBtn = document.getElementById(`${viewID}-btn`);
-
     if (activeBtn) activeBtn.classList.add("active");
 
     const header = document.querySelector(".main-header h1");
