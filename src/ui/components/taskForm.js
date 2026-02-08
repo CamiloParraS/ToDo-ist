@@ -25,6 +25,9 @@ export default function createTaskForm(onSubmit, onCancel) {
   const optionsRow = document.createElement("div");
   optionsRow.className = "task-form-options";
 
+  const selectRow = document.createElement("div");
+  selectRow.className = "og-form-options";
+
   // Date
   const dateInput = document.createElement("input");
   dateInput.type = "date";
@@ -55,11 +58,11 @@ export default function createTaskForm(onSubmit, onCancel) {
     projectSelect.appendChild(option);
   });
 
+  selectRow.append(dateInput, prioritySelect, projectSelect);
+
   // --- buttons row ---
   const buttonsRow = document.createElement("div");
   buttonsRow.className = "task-form-buttons";
-
-  optionsRow.append(dateInput, prioritySelect, projectSelect, buttonsRow);
 
   // Creaate Task
   const createBtn = document.createElement("button");
@@ -72,6 +75,7 @@ export default function createTaskForm(onSubmit, onCancel) {
   cancelBtn.textContent = "Cancel";
 
   buttonsRow.append(createBtn, cancelBtn);
+  optionsRow.append(selectRow, buttonsRow);
 
   // --- assemble ---
   formDiv.append(formHeader, titleInput, descInput, optionsRow);
