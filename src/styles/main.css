@@ -26,14 +26,16 @@
     --surface2: #585b70;
     --surface1: #45475a;
     --surface0: #313244;
-    --base: #1e1e2e;
-    --mantle: rgba(24, 24, 37, 1);
+    --base: #1e1e2ed7;
+    --mantle: #181825;
     --crust: #11111b;
+    --border-subtle: #31324415;
 }
 
 body {
     font-family: "Google Sans Code", monospace;
     background-color: var(--base);
+    backdrop-filter: blur(10px);
     color: var(--text);
     line-height: 1.5;
     margin: 0;
@@ -52,7 +54,7 @@ body {
     font-weight: 400;
     width: 280px;
     background-color: var(--mantle);
-    border-right: 1px solid var(--surface0);
+    border-right: 1px solid var(--border-subtle);
     padding: 20px 0;
     overflow-y: auto;
 }
@@ -72,9 +74,9 @@ body {
 }
 
 .active {
-    background-color: var(--surface1);
-    color: var(--sky);
-    border-left: 2px solid var(--sky);
+    background-color: var(#181825b0);
+    color: var(--mauve);
+    border-left: 2px solid var(--mauve);
     padding-left: 18px;
 }
 
@@ -137,7 +139,7 @@ body {
     font-size: 26px;
     font-weight: 400;
     margin-bottom: 5px;
-    color: var(--sky);
+    color: var(--mauve);
 }
 
 .main-header h1:before {
@@ -159,7 +161,7 @@ body {
     font-size: 14px;
     font-weight: 700;
     padding-bottom: 10px;
-    border-bottom: 1px solid var(--surface1);
+    border-bottom: 1px solid var(--border-subtle);
     color: var(--yellow);
     display: flex;
     align-items: center;
@@ -239,10 +241,10 @@ body {
 
 .task-project {
     color: var(--blue);
-    background: rgba(137, 180, 250, 0.1);
+    background: rgba(137, 180, 250, 0.05);
     padding: 2px 6px;
     border-radius: 3px;
-    border: 1px solid rgba(137, 180, 250, 0.2);
+    border: 1px solid var(--border-subtle);
 }
 
 .task-time {
@@ -267,7 +269,7 @@ body {
     width: 1em;
     height: 1em;
     user-select: none;
-    border: 2px solid var(--sky);
+    border: 2px solid var(--surface2);
     display: block;
     flex-shrink: 0;
     margin-right: 12px;
@@ -294,6 +296,7 @@ body {
 }
 
 .task.completed .checkmark:after {
+    background-color: var(--green);
     transform: scale(1);
 }
 

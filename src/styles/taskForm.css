@@ -1,0 +1,131 @@
+/*  Modal / Container Styling */
+.task-form {
+    background-color: #1e1e2ed0;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-subtle);
+    border-radius: 2px;
+    padding: 1px;
+    margin: 20px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 800px;
+}
+
+.task-form-header {
+    display: none;
+}
+
+/* Inputs (Title & Description) */
+.task-form-title,
+.task-form-description {
+    background-color: transparent;
+    border: none;
+    color: var(--text);
+    font-family: "Google Sans Code", monospace;
+    padding: 0 20px;
+    outline: none;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.task-form-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    color: var(--mauve);
+}
+
+.task-form-description {
+    font-size: 13px;
+    color: var(--subtext1);
+    resize: none;
+    margin-bottom: 15px;
+}
+
+.task-form-title::placeholder,
+.task-form-description::placeholder {
+    color: #45475a;
+}
+
+/* Options Row */
+.task-form-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0 20px 10px 20px;
+}
+
+/*  selects/inputs  */
+.task-form-date,
+.task-form-priority,
+.task-form-project {
+    background-color: #11111b;
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    color: var(--subtext1);
+    font-family: "Google Sans Code", monospace;
+    font-size: 12px;
+    padding: 4px 10px;
+    cursor: pointer;
+    outline: none;
+    transition:
+        background 0.2s,
+        border-color 0.2s;
+}
+
+/* Hover effects for the option */
+.task-form-date:hover,
+.task-form-priority:hover,
+.task-form-project:hover {
+    background-color: var(--surface0);
+    border-color: var(--surface2);
+}
+
+/* Buttons / Footer Row */
+.task-form-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    background-color: rgba(25, 24, 37, 0.6);
+}
+
+/* Cancel Button */
+.task-form-cancel-btn {
+    background: none;
+    border: none;
+    color: var(--overlay1);
+    font-family: "Google Sans Code", monospace;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+.task-form-cancel-btn:hover {
+    background-color: var(--red);
+}
+
+/* Create/Add Task Button */
+.task-form-create-btn {
+    background-color: var(--mauve);
+    color: #11111b;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-family: "Google Sans Code", monospace;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.task-form-create-btn:hover {
+    opacity: 0.9;
+}
