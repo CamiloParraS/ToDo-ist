@@ -2,9 +2,8 @@ import applogic from "../logic/applogic";
 import allTasksView from "./views/allTasks.js";
 import todayView from "./views/todayView.js";
 import upcomingView from "./views/upcomingView.js";
-import createTaskForm from "./components/taskForm.js";
-import createProjectForm from "./components/projectModal.js";
 import { filters } from "../utils/DateUtils.js";
+import formManager from "./components/formManager.js";
 
 const domController = {
   activeForms: new Map(),
@@ -64,74 +63,20 @@ const domController = {
       this.setActiveView(filterKey, title);
       this.loadTasks(filteredTasks, viewElement);
     }
-
-    this.reinjectForms();
-  },
-
-  reinjectForms() {
-    this.activeForms.forEach(({ element, containerId, placement }) => {
-      const container = document.getElementById(containerId);
-      if (container) {
-        placement === "prepend"
-          ? container.prepend(element)
-          : container.append(element);
-      }
-    });
-  },
-
-  renderForm(formId, containerId, formCreator, onSaveLogic) {
-    if (this.activeForms.has(formId)) return;
-
-    const container = document.getElementById(containerId);
-    const placement = containerId === "tasks-container" ? "prepend" : "append";
-
-    const form = formCreator(
-      (data) => {
-        onSaveLogic(data);
-        this.closeForm(formId);
-      },
-      () => {
-        this.closeForm(formId);
-      },
-    );
-    this.activeForms.set(formId, { element: form, containerId, placement });
-
-    placement === "prepend" ? container.prepend(form) : container.append(form);
-
-    const input = form.querySelector("input, textarea");
-    if (input) input.focus();
-  },
-
-  closeForm(formId) {
-    const formObj = this.activeForms.get(formId);
-    if (!formObj) return;
-
-    formObj.element.remove();
-    this.activeForms.delete(formId);
   },
 
   showAddTaskForm() {
-    this.renderForm(
-      "task-main",
-      "tasks-container",
-      createTaskForm,
-      (taskData) => {
-        applogic.addTask(taskData.projectId, taskData);
-        this.refreshCurrentView();
-      },
-    );
+    formManager.showTaskForm((taskData) => {
+      applogic.addTask(taskData.projectId, taskData);
+      this.refreshCurrentView();
+    });
   },
 
   showProjectForm() {
-    this.renderForm(
-      "project-new",
-      "newProjectSection",
-      createProjectForm,
-      (projectData) => {
-        applogic.createProject(projectData.name);
-        this.loadProjects();
-      },
-    );
+    formManager.showProjectForm((projectData) => {
+      applogic.createProject(projectData.name);
+      this.loadProjects();
+    });
   },
 
   bindEvents() {
