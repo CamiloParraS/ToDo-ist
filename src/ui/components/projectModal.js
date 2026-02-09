@@ -1,10 +1,11 @@
 export default function createProjectForm(onCreate, onCancel) {
   const formDiv = document.createElement("div");
+  formDiv.className = "task-forms";
 
   const titleInput = document.createElement("input");
   titleInput.type = "text";
-  titleInput.className = "project-form-title";
-  titleInput.placeholder = "Task title...";
+  titleInput.className = "task-form-title project-form-title";
+  titleInput.placeholder = "Project name...";
 
   const buttonsRow = document.createElement("div");
   buttonsRow.className = "task-form-buttons";
@@ -27,7 +28,7 @@ export default function createProjectForm(onCreate, onCancel) {
     const projectData = {
       name: titleInput.value.trim(),
     };
-    onCreate(projectData);
+    if (projectData.name) onCreate(projectData);
   };
 
   createBtn.addEventListener("click", handleCreate);
