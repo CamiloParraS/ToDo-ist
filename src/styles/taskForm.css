@@ -3,14 +3,15 @@
     background-color: #1e1e2ed0;
     backdrop-filter: blur(10px);
     border: 1px solid var(--border-subtle);
-    border-radius: 2px;
-    padding: 1px;
+    border-radius: 4px;
+    padding: 18px 15px;
     margin: 20px auto;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     gap: 6px;
     max-width: 800px;
+    box-sizing: border-box;
 }
 
 .task-form-header {
@@ -24,26 +25,32 @@
     border: none;
     color: var(--text);
     font-family: "Google Sans Code", monospace;
-    padding: 0 20px;
     outline: none;
     display: block;
     width: 100%;
     box-sizing: border-box;
+    transition: border-color 0.4s ease-in-out;
 }
 
 .task-form-title {
+    border-radius: 4px;
+    padding: 5px 12px;
     font-size: 16px;
     font-weight: 500;
-    margin-top: 20px;
     margin-bottom: 8px;
     color: var(--mauve);
+    border: 1px solid transparent;
 }
 
 .task-form-description {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 5px 12px;
     font-size: 13px;
     color: var(--subtext1);
     resize: none;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
+    min-height: 40px;
 }
 
 .task-form-title::placeholder,
@@ -51,19 +58,27 @@
     color: #45475a;
 }
 
+.task-form-title:focus,
+.task-form-description:focus {
+    border-color: var(--surface1);
+}
+.task-form-title:hover:not(:focus),
+.task-form-description:hover:not(:focus) {
+    border-color: var(--surface0);
+}
+
 /* Options Row */
 
 .og-form-options,
 .task-form-options {
+    padding: 5px 12px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    gap: 5px;
 }
 
 .task-form-options {
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: 0 20px 10px 20px;
 }
 
 /*  selects/inputs  */
@@ -95,11 +110,10 @@
 /* Buttons / Footer Row */
 .task-form-buttons {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    justify-content: flex-end;
     align-items: center;
     gap: 10px;
-    background-color: rgba(25, 24, 37, 0.3);
 }
 
 /* Cancel Button */
@@ -117,6 +131,7 @@
 
 .task-form-cancel-btn:hover {
     background-color: var(--red);
+    background-color: rgba(243, 139, 168, 0.1);
 }
 
 /* Create/Add Task Button */

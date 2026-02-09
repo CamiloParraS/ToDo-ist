@@ -32,6 +32,12 @@
     --border-subtle: #31324415;
 }
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
     font-family: "Google Sans Code", monospace;
     background-color: var(--base);
