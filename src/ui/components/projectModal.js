@@ -32,7 +32,6 @@ export default function createProjectForm(onCreate, onCancel) {
   };
 
   createBtn.addEventListener("click", handleCreate);
-
   cancelBtn.addEventListener("click", onCancel);
 
   return formDiv;
