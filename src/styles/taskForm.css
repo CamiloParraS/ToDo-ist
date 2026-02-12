@@ -71,12 +71,12 @@
 
 .og-form-options,
 .task-form-options {
-    padding: 5px 12px;
     display: flex;
     gap: 5px;
 }
 
 .task-form-options {
+    padding: 5px 12px;
     justify-content: space-between;
     flex-wrap: wrap;
 }
