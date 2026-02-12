@@ -1,0 +1,148 @@
+.task {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px;
+    transition: background-color 0.2s;
+    position: relative;
+    border-bottom: 1px solid var(--surface1);
+}
+
+.task::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--surface0);
+    opacity: 0.3;
+}
+
+.task:hover {
+    background-color: var(--surface0);
+}
+
+.task-content {
+    flex: 1;
+}
+
+.task-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.task-title {
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    font-size: 13px;
+    color: var(--text);
+}
+
+.task-description {
+    font-size: 12px;
+    color: var(--subtext0);
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Metadata Section */
+.task-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--subtext0);
+}
+
+.task-time {
+    color: var(--teal);
+}
+
+.task-project {
+    color: var(--blue);
+    background: rgba(137, 180, 250, 0.05);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--border-subtle);
+}
+
+.task-project::before {
+    content: "# ";
+}
+
+/* Custom Checkbox */
+.task-checkbox-container {
+    position: relative;
+    cursor: pointer;
+    font-size: 12px;
+    width: 1em;
+    height: 1em;
+    user-select: none;
+    border: 2px solid var(--surface2);
+    display: block;
+    flex-shrink: 0;
+    margin-right: 12px;
+    margin-top: 3px;
+}
+
+.task-checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    background-color: var(--sky);
+    width: 4px;
+    height: 4px;
+    transform: scale(0);
+    transition: 0.1s ease;
+}
+
+/* Priority Labels */
+.priority-label {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: auto;
+}
+
+.priority-1 {
+    background-color: rgba(243, 139, 168, 0.15);
+    color: var(--red);
+    border: 1px solid var(--red);
+}
+
+.priority-2 {
+    background-color: rgba(250, 179, 135, 0.15);
+    color: var(--peach);
+    border: 1px solid var(--peach);
+}
+
+.priority-3 {
+    background-color: rgba(137, 180, 250, 0.15);
+    color: var(--blue);
+    border: 1px solid var(--blue);
+}
+
+/* Completed State */
+.task.completed .checkmark:after {
+    background-color: var(--green);
+    transform: scale(1);
+}
+
+.task.completed .task-title {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
