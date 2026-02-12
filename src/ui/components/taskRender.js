@@ -1,9 +1,11 @@
 import appLogicInstance from "../../logic/applogic";
 
 export default function createTask(task) {
+  // --- Initialization ---
   const taskDiv = document.createElement("div");
   taskDiv.classList.add("task");
 
+  // --- Checkbox & Status UI ---
   const checkboxContainer = document.createElement("label");
   checkboxContainer.className = "task-checkbox-container";
 
@@ -16,13 +18,16 @@ export default function createTask(task) {
 
   checkboxContainer.append(checkboxInput, checkmark);
 
+  // --- Task Content ---
   const taskContent = document.createElement("div");
   taskContent.className = "task-content";
 
+  // --- Title ---
   const taskTitle = document.createElement("div");
   taskTitle.className = "task-title";
   taskTitle.textContent = `${task.title} `;
 
+  // --- Priority Badge Logic ---
   const priorityLabel = document.createElement("span");
   const priorities = [
     { value: "1", label: "High" },
@@ -33,14 +38,16 @@ export default function createTask(task) {
     (p) => p.value === String(task.priority),
   );
   priorityLabel.className = `priority-label priority-${task.priority}`;
-  priorityLabel.textContent = priorityValue.label;
+  priorityLabel.textContent = priorityValue ? priorityValue.label : "None";
 
+  // --- Description ---
   const taskDescription = document.createElement("div");
   taskDescription.className = "task-description";
   const descSpan = document.createElement("span");
   descSpan.textContent = task.description;
   taskDescription.appendChild(descSpan);
 
+  // --- Metadata Section (Date, Priority, Project) ---
   const taskMeta = document.createElement("div");
   taskMeta.className = "task-meta";
 
@@ -50,24 +57,25 @@ export default function createTask(task) {
 
   const taskProject = document.createElement("span");
   taskProject.className = "task-project";
-
   taskProject.textContent = appLogicInstance.getProject(task.project).name;
 
+  // Assembly of the metadata row
   taskMeta.append(taskDate, priorityLabel, taskProject);
 
+  // --- DOM Assembly ---
   taskContent.append(taskTitle, taskDescription, taskMeta);
-
   taskDiv.append(checkboxContainer, taskContent);
 
   if (task.completed) {
     taskDiv.classList.add("completed");
   }
 
+  // --- Event Listeners ---
   checkboxInput.addEventListener("change", () => {
     task.toggleComplete();
     taskDiv.classList.toggle("completed", task.completed);
     checkboxInput.checked = task.completed;
-    console.log(task);
+    console.log("Task status updated:", task);
   });
 
   return taskDiv;
