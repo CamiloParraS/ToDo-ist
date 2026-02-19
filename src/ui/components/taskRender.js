@@ -22,7 +22,11 @@ export default function createTask(task) {
   const taskContent = document.createElement("div");
   taskContent.className = "task-content";
 
-  // --- Title ---
+  // --- Title Row ---
+  const titleRow = document.createElement("div");
+  titleRow.className = "task-title-row";
+
+  // Title
   const taskTitle = document.createElement("div");
   taskTitle.className = "task-title";
   taskTitle.textContent = `${task.title} `;

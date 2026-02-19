@@ -1,13 +1,13 @@
 import appLogicInstance from "../../logic/applogic";
 
-export default function createTaskForm(onSubmit, onCancel) {
+export default function createTaskForm(onSubmit, onCancel, mode = "create") {
   const formDiv = document.createElement("div");
   formDiv.className = "task-form";
 
   // New Form Header
   const formHeader = document.createElement("div");
   formHeader.className = "task-form-header";
-  formHeader.textContent = "New Task";
+  formHeader.textContent = mode === "edit" ? "Edit Task" : "New Task";
 
   // Title Input
   const titleInput = document.createElement("input");
@@ -67,7 +67,7 @@ export default function createTaskForm(onSubmit, onCancel) {
   // Creaate Task
   const createBtn = document.createElement("button");
   createBtn.className = "task-form-create-btn";
-  createBtn.textContent = "Create Task";
+  createBtn.textContent = mode === "edit" ? "Save Changes" : "Create Task";
 
   // Cancel whatever you were doing
   const cancelBtn = document.createElement("button");
