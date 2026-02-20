@@ -1,4 +1,5 @@
 import appLogicInstance from "../../logic/applogic";
+import createKebabMenu from "./kebab";
 
 export default function createTask(task) {
   // --- Initialization ---
@@ -30,6 +31,29 @@ export default function createTask(task) {
   const taskTitle = document.createElement("div");
   taskTitle.className = "task-title";
   taskTitle.textContent = `${task.title} `;
+
+  // Kebab Menu
+  const kebabMenu = createKebabMenu(task, taskDiv);
+  titleRow.append(taskTitle, kebabMenu);
+
+  // Dropdown
+  const dropdown = document.createElement("div");
+  dropdown.className = "menu-dropdown";
+  dropdown.style.display = "none";
+
+  // Options
+  const editOption = document.createElement("div");
+  editOption.className = "menu-option";
+  editOption.innerHTML = "Edit";
+
+  const deleteOption = document.createElement("div");
+  deleteOption.className = "menu-option";
+  deleteOption.innerHTML = "Delete";
+
+  // titleRow Assembly
+  dropdown.append(editOption, deleteOption);
+  kebabMenu.append(dropdown);
+  titleRow.append(taskTitle, kebabMenu);
 
   // --- Priority Badge Logic ---
   const priorityLabel = document.createElement("span");
@@ -67,7 +91,7 @@ export default function createTask(task) {
   taskMeta.append(taskDate, priorityLabel, taskProject);
 
   // --- DOM Assembly ---
-  taskContent.append(taskTitle, taskDescription, taskMeta);
+  taskContent.append(titleRow, taskDescription, taskMeta);
   taskDiv.append(checkboxContainer, taskContent);
 
   if (task.completed) {
