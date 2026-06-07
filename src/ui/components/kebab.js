@@ -1,5 +1,6 @@
 import appLogicInstance from "../../logic/applogic";
 import createTaskForm from "./taskForm";
+import showConfirmDialog from "./confirmDialog";
 
 let currentOpenDropdown = null;
 
@@ -88,8 +89,18 @@ export default function createKebabMenu(task, taskDiv) {
   });
 
   kebabMenu.addEventListener("keydown", (e) => {
+    if (!dropdown.classList.contains("visible")) return;
+
     const items = Array.from(dropdown.querySelectorAll('[role="menuitem"]'));
     const current = document.activeElement;
+
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      if (current && items.includes(current)) {
+        current.click();
+      }
+      return;
+    }
 
     if (e.key === "Escape") {
       e.preventDefault();
@@ -102,18 +113,35 @@ export default function createKebabMenu(task, taskDiv) {
       e.preventDefault();
       const delta = e.key === "ArrowDown" ? 1 : -1;
       const idx = items.indexOf(current);
-      const nextIdx = idx < 0 ? 0 : (idx + delta + items.length) % items.length;
+      const nextIdx =
+        idx < 0
+          ? delta > 0
+            ? 0
+            : items.length - 1
+          : (idx + delta + items.length) % items.length;
       items.forEach((it) => it.setAttribute("tabindex", "-1"));
       items[nextIdx].setAttribute("tabindex", "0");
       items[nextIdx].focus();
     }
   });
 
+  kebabMenu.addEventListener("focusout", (e) => {
+    if (!dropdown.classList.contains("visible")) return;
+    if (!kebabMenu.contains(e.relatedTarget)) {
+      closeAllDropdowns();
+    }
+  });
+
   deleteOption.addEventListener("click", (e) => {
     e.stopPropagation();
-    appLogicInstance.deleteTask(task.project, task.id);
-    taskDiv.remove();
     closeAllDropdowns();
+    showConfirmDialog(
+      `Delete "${task.title}"? This cannot be undone.`,
+      () => {
+        appLogicInstance.deleteTask(task.project, task.id);
+        taskDiv.remove();
+      },
+    );
   });
 
   editOption.addEventListener("click", (e) => {
@@ -127,14 +155,16 @@ export default function createKebabMenu(task, taskDiv) {
         task.description = updatedData.description;
         task.dueDate = updatedData.dueDate;
         task.priority = Number(updatedData.priority);
+        task.project = updatedData.projectId;
 
         import("./taskRender.js").then(({ default: createTask }) => {
-          taskDiv.replaceWith(createTask(task));
+          form.replaceWith(createTask(task));
         });
       },
       () => {
         form.replaceWith(taskDiv);
       },
+      "edit",
     );
 
     form.querySelector(".task-form-title").value = task.title;
