@@ -36,25 +36,6 @@ export default function createTask(task) {
   const kebabMenu = createKebabMenu(task, taskDiv);
   titleRow.append(taskTitle, kebabMenu);
 
-  // Dropdown
-  const dropdown = document.createElement("div");
-  dropdown.className = "menu-dropdown";
-  dropdown.style.display = "none";
-
-  // Options
-  const editOption = document.createElement("div");
-  editOption.className = "menu-option";
-  editOption.innerHTML = "Edit";
-
-  const deleteOption = document.createElement("div");
-  deleteOption.className = "menu-option";
-  deleteOption.innerHTML = "Delete";
-
-  // titleRow Assembly
-  dropdown.append(editOption, deleteOption);
-  kebabMenu.append(dropdown);
-  titleRow.append(taskTitle, kebabMenu);
-
   // --- Priority Badge Logic ---
   const priorityLabel = document.createElement("span");
   const priorities = [
