@@ -1,22 +1,51 @@
 import appLogicInstance from "../../logic/applogic";
 import createTaskForm from "./taskForm";
 
+let currentOpenDropdown = null;
+
+function closeAllDropdowns() {
+  document.querySelectorAll(".menu-dropdown.visible").forEach((d) => {
+    d.classList.remove("visible");
+  });
+  if (currentOpenDropdown) {
+    const btn = currentOpenDropdown
+      .closest(".kebab-menu")
+      ?.querySelector(".menu-button");
+    if (btn) btn.setAttribute("aria-expanded", "false");
+    currentOpenDropdown = null;
+  }
+}
+
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".kebab-menu")) {
+    closeAllDropdowns();
+  }
+});
+
 export default function createKebabMenu(task, taskDiv) {
   const kebabMenu = document.createElement("div");
   kebabMenu.className = "kebab-menu";
 
+  const dropdownId = `menu-dropdown-${task.id}`;
+
   const menuButton = document.createElement("button");
+  menuButton.type = "button";
   menuButton.className = "menu-button";
   menuButton.innerHTML = "⋮";
   menuButton.setAttribute("aria-label", "Task options");
+  menuButton.setAttribute("aria-expanded", "false");
+  menuButton.setAttribute("aria-haspopup", "menu");
+  menuButton.setAttribute("aria-controls", dropdownId);
 
   const dropdown = document.createElement("div");
   dropdown.className = "menu-dropdown";
-  dropdown.style.display = "none";
+  dropdown.id = dropdownId;
+  dropdown.setAttribute("role", "menu");
 
-  // Edit option
   const editOption = document.createElement("div");
   editOption.className = "menu-option";
+  editOption.setAttribute("role", "menuitem");
+  editOption.setAttribute("tabindex", "-1");
   editOption.innerHTML = `
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
       <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -25,9 +54,10 @@ export default function createKebabMenu(task, taskDiv) {
     <span>Edit</span>
   `;
 
-  // Delete option
   const deleteOption = document.createElement("div");
   deleteOption.className = "menu-option";
+  deleteOption.setAttribute("role", "menuitem");
+  deleteOption.setAttribute("tabindex", "-1");
   deleteOption.innerHTML = `
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
       <polyline points="3 6 5 6 21 6"></polyline>
@@ -39,33 +69,56 @@ export default function createKebabMenu(task, taskDiv) {
   dropdown.append(editOption, deleteOption);
   kebabMenu.append(menuButton, dropdown);
 
-  // --- Toggle dropdown open/close ---
+  function openDropdown() {
+    dropdown.classList.add("visible");
+    menuButton.setAttribute("aria-expanded", "true");
+    currentOpenDropdown = dropdown;
+    editOption.setAttribute("tabindex", "0");
+    editOption.focus();
+  }
+
   menuButton.addEventListener("click", (e) => {
     e.stopPropagation();
-    const isOpen = dropdown.style.display === "block";
-    document.querySelectorAll(".menu-dropdown").forEach((d) => {
-      d.style.display = "none";
-    });
-    dropdown.style.display = isOpen ? "none" : "block";
+    if (dropdown.classList.contains("visible")) {
+      closeAllDropdowns();
+    } else {
+      closeAllDropdowns();
+      openDropdown();
+    }
   });
 
-  // Close when clicking anywhere else on the page
-  document.addEventListener("click", () => {
-    dropdown.style.display = "none";
+  kebabMenu.addEventListener("keydown", (e) => {
+    const items = Array.from(dropdown.querySelectorAll('[role="menuitem"]'));
+    const current = document.activeElement;
+
+    if (e.key === "Escape") {
+      e.preventDefault();
+      closeAllDropdowns();
+      menuButton.focus();
+      return;
+    }
+
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      const delta = e.key === "ArrowDown" ? 1 : -1;
+      const idx = items.indexOf(current);
+      const nextIdx = idx < 0 ? 0 : (idx + delta + items.length) % items.length;
+      items.forEach((it) => it.setAttribute("tabindex", "-1"));
+      items[nextIdx].setAttribute("tabindex", "0");
+      items[nextIdx].focus();
+    }
   });
 
-  // --- Delete ---
   deleteOption.addEventListener("click", (e) => {
     e.stopPropagation();
     appLogicInstance.deleteTask(task.project, task.id);
     taskDiv.remove();
-    dropdown.style.display = "none";
+    closeAllDropdowns();
   });
 
-  // --- Edit ---
   editOption.addEventListener("click", (e) => {
     e.stopPropagation();
-    dropdown.style.display = "none";
+    closeAllDropdowns();
 
     const form = createTaskForm(
       (updatedData) => {
@@ -84,7 +137,6 @@ export default function createKebabMenu(task, taskDiv) {
       },
     );
 
-    // Pre-fill form with current task values
     form.querySelector(".task-form-title").value = task.title;
     form.querySelector(".task-form-description").value = task.description || "";
     form.querySelector(".task-form-date").value = task.dueDate || "";
