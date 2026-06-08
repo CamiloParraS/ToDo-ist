@@ -2,8 +2,10 @@ import applogic from "../logic/applogic";
 import allTasksView from "./views/allTasks.js";
 import todayView from "./views/todayView.js";
 import upcomingView from "./views/upcomingView.js";
+import overdueView from "./views/overdueView.js";
 import { filters } from "../utils/DateUtils.js";
 import formManager from "./components/formManager.js";
+import showConfirmDialog from "./components/confirmDialog.js";
 
 const domController = {
   activeForms: new Map(),
@@ -89,6 +91,12 @@ const domController = {
         view: upcomingView,
       },
       {
+        id: "overdue-btn",
+        filterKey: "overdue",
+        title: "Overdue Tasks",
+        view: overdueView,
+      },
+      {
         id: "all-btn",
         filterKey: "all",
         title: "All Tasks",
@@ -137,9 +145,26 @@ const domController = {
 
     projectDiv.id = `${project.id}-btn`;
 
-    projectDiv.appendChild(hashSpan);
-    projectDiv.append(` ${project.name}`);
+    const deleteBtn = document.createElement("span");
+    deleteBtn.className = "project-delete-btn";
+    deleteBtn.textContent = "×";
+    deleteBtn.setAttribute("aria-label", `Delete project ${project.name}`);
 
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showConfirmDialog(
+        `Delete project "${project.name}" and all its tasks?`,
+        () => {
+          applogic.deleteProject(project.id);
+          this.loadProjects();
+          if (this.currentView.filterKey === project.id) {
+            this.handleNavClick("all", "All Tasks", allTasksView);
+          }
+        },
+      );
+    });
+
+    projectDiv.append(hashSpan, ` ${project.name}`, deleteBtn);
     projectsContainer.appendChild(projectDiv);
   },
 
