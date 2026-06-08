@@ -68,7 +68,7 @@ export default class Todo {
   // ALL
   getTaskInfo() {
     return (
-      this.name,
+      this.title,
       this.description,
       this.dueDate,
       this.priority,
