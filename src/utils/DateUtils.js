@@ -70,6 +70,4 @@ export const filters = {
   today: (tasks) => tasks.filter((t) => categorizeTask(t) === "today"),
   overdue: (tasks) => tasks.filter((t) => categorizeTask(t) === "overdue"),
   upcoming: (tasks) => tasks.filter((t) => categorizeTask(t) === "upcoming"),
-  week: (tasks) => tasks.filter((t) => isThisWeek(new Date(t.dueDate))),
-  highPriority: (tasks) => tasks.filter((t) => t.priority === "high"),
 };

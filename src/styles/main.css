@@ -129,6 +129,29 @@ body {
     color: var(--blue);
 }
 
+.project-item {
+    justify-content: space-between;
+}
+
+.project-delete-btn {
+    margin-left: auto;
+    opacity: 0;
+    color: var(--surface2);
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0 4px;
+    transition: opacity 0.15s, color 0.15s;
+}
+
+.project-item:hover .project-delete-btn {
+    opacity: 1;
+}
+
+.project-delete-btn:hover {
+    color: var(--red);
+}
+
 /* Main Content */
 .main-content {
     flex: 1;
