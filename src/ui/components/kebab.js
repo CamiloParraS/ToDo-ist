@@ -150,12 +150,21 @@ export default function createKebabMenu(task, taskDiv) {
 
     const form = createTaskForm(
       (updatedData) => {
-        console.log(updatedData);
+        const oldProjectId = task.project;
+        const newProjectId = updatedData.projectId;
+
+        if (oldProjectId !== newProjectId) {
+          const oldProject = appLogicInstance.getProject(oldProjectId);
+          if (oldProject) oldProject.deleteTask(task.id);
+          const newProject = appLogicInstance.getProject(newProjectId);
+          if (newProject) newProject.tasks.push(task);
+        }
+
         task.title = updatedData.title;
         task.description = updatedData.description;
         task.dueDate = updatedData.dueDate;
         task.priority = Number(updatedData.priority);
-        task.project = updatedData.projectId;
+        task.project = newProjectId;
 
         import("./taskRender.js").then(({ default: createTask }) => {
           form.replaceWith(createTask(task));
