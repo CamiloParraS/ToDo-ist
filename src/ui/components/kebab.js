@@ -139,6 +139,7 @@ export default function createKebabMenu(task, taskDiv) {
       `Delete "${task.title}"? This cannot be undone.`,
       () => {
         appLogicInstance.deleteTask(task.project, task.id);
+        appLogicInstance.save();
         taskDiv.remove();
       },
     );
@@ -165,6 +166,7 @@ export default function createKebabMenu(task, taskDiv) {
         task.dueDate = updatedData.dueDate;
         task.priority = Number(updatedData.priority);
         task.project = newProjectId;
+        appLogicInstance.save();
 
         import("./taskRender.js").then(({ default: createTask }) => {
           form.replaceWith(createTask(task));

@@ -82,6 +82,7 @@ export default function createTask(task) {
   // --- Event Listeners ---
   checkboxInput.addEventListener("change", () => {
     task.toggleComplete();
+    appLogicInstance.save();
     taskDiv.classList.toggle("completed", task.completed);
     checkboxInput.checked = task.completed;
     console.log("Task status updated:", task);

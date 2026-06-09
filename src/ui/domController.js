@@ -70,6 +70,7 @@ const domController = {
   showAddTaskForm() {
     formManager.showTaskForm((taskData) => {
       applogic.addTask(taskData.projectId, taskData);
+      applogic.save();
       this.refreshCurrentView();
     });
   },
@@ -77,6 +78,7 @@ const domController = {
   showProjectForm() {
     formManager.showProjectForm((projectData) => {
       applogic.createProject(projectData.name);
+      applogic.save();
       this.loadProjects();
     });
   },
@@ -156,6 +158,7 @@ const domController = {
         `Delete project "${project.name}" and all its tasks?`,
         () => {
           applogic.deleteProject(project.id);
+          applogic.save();
           this.loadProjects();
           if (this.currentView.filterKey === project.id) {
             this.handleNavClick("all", "All Tasks", allTasksView);
