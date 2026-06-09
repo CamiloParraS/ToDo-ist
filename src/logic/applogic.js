@@ -8,6 +8,8 @@ class applogic {
 
     const defaultProject = new Project("root", "root");
     this.addProject(defaultProject);
+
+    this._loaded = this.load();
   }
 
   set projects(projects) {
@@ -66,8 +68,51 @@ class applogic {
 
     return project.getTask(taskId);
   }
+
+  save() {
+    localStorage.setItem("todois-data", JSON.stringify(this._projects));
+  }
+
+  load() {
+    try {
+      const raw = localStorage.getItem("todois-data");
+      if (!raw) return false;
+
+      const data = JSON.parse(raw);
+      if (!Array.isArray(data) || data.length === 0) return false;
+
+      this._projects = data.map((pData) => {
+        const project = new Project(pData._name, pData._id);
+        project._tasks = (pData._tasks || []).map((tData) => {
+          const todo = new Todo(
+            tData._title,
+            tData._description,
+            tData._dueDate,
+            tData._priority,
+            tData._project,
+          );
+          todo.id = tData.id;
+          todo.complete = tData.complete;
+          return todo;
+        });
+        return project;
+      });
+
+      if (!this.getProject("root")) {
+        this.addProject(new Project("root", "root"));
+      }
+
+      return true;
+    } catch (e) {
+      console.warn("Failed to load data from localStorage", e);
+      return false;
+    }
+  }
 }
 
 const appLogicInstance = new applogic();
-debug(appLogicInstance);
+if (!appLogicInstance._loaded) {
+  debug(appLogicInstance);
+  appLogicInstance.save();
+}
 export default appLogicInstance;
